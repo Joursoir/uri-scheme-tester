@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>URI Scheme Tester</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        input { width: 100%; padding: 10px; margin: 10px 0; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+        .error { color: red; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>URI Scheme Tester</h1>
+        <input type="text" id="uriInput" placeholder="Enter URI (e.g., vless://example.com)">
+        <button onclick="testURI()">Test URI</button>
+        <div id="errorMessage" class="error"></div>
+        
+        <h3>Sample URIs to test:</h3>
+        <ul>
+            <li>tel:+1234567890</li>
+            <li>mailto:test@example.com</li>
+            <li>geo:40.7128,-74.0060</li>
+            <li>zoommtg://zoom.us/join</li>
+            <li>ssh://user:pass@server:22/?pk=pk&hk=hk</li>
+            <li>sn://subscription?url=URL&name=NAME</li>
+        </ul>
+    </div>
+
+    <script>
+        function testURI() {
+            const uri = document.getElementById('uriInput').value;
+            const errorElement = document.getElementById('errorMessage');
+            errorElement.textContent = '';
+
+            if (!uri) {
+                errorElement.textContent = 'Please enter a URI';
+                return;
+            }
+
+            try {
+                window.location.href = uri;
+                
+                setTimeout(() => {
+                    if (!document.hidden) {
+                        errorElement.textContent = 'URI scheme not supported or app not installed';
+                    }
+                }, 2500);
+            } catch (e) {
+                errorElement.textContent = `Error: ${e.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
